@@ -1,0 +1,16 @@
+    .itemlist{
+        border: 1px solid #ccc;
+        border-radius: 7px;
+        padding: 10px 20px;
+        margin: 10px;
+    }
+    
+    .item {
+        padding: auto;
+        display: inline;
+        padding: 0.5rem 0.5rem;
+        }
+    
+    .spacer {
+        flex: 1;
+      }
