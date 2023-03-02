@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DataService } from 'src/app/services/data.service'
+import { DataService } from '../../services/data.service'
 import { BasketItem } from "src/app/models/BasketItem";
 import { Observable } from 'rxjs';
 

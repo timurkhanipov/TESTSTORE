@@ -30,10 +30,6 @@ export class DataService {
     return this.http.get<Item[]>('https://fakestoreapi.com/products');
   }
 
-  public GetItemsInTheBasketCount$(){
-    return of (this.itemsInTheBasketCount);
-  }
-
   public GetBasketItems$(): Observable<BasketItem[]> {
     const basketItemsObservable = from(this.itemsInTheBasket);
     const basketList = new Set(this.itemsInTheBasket);
@@ -45,8 +41,11 @@ export class DataService {
       const counter = basketItemsObservable.pipe(count(x => x.id === item.id));
       counter.subscribe(num => totalCount = num)
       const bItem: BasketItem = {
-        title: item.title,
-        id: item.id,
+        item: {
+            title: item.title,
+            id: item.id,
+            price: item.price,
+        } ,
         totalPrice: (Number(item.price)*totalCount).toString(),
         qty: totalCount.toString()
       }
