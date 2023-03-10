@@ -15,6 +15,10 @@ export class MainComponent implements OnInit {
 
   public items$!: Observable<Item[]>;
 
+  addToBasket(item: Item){
+    this.dataService.AddItem(item)
+  }
+
   ngOnInit(): void {
     this.items$ = this.dataService.GetItems$();
   }

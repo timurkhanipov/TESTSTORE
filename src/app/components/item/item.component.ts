@@ -14,10 +14,10 @@ export class ItemComponent {
 
   @Input() item!: Item;
 
-  // @Output()
-  // itemToTheBasket = new EventEmitter<Item>()
+  @Output()
+  itemToTheBasket = new EventEmitter<Item>()
 
   onAddHandler(item: Item): void{
-    this.dataService.AddItem(item)
+    this.itemToTheBasket.emit(this.item)
   }
 }
