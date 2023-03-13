@@ -2,6 +2,6 @@
     <p class="item">Name: {{basketitem.item.title}}</p>
     <p class="item">Qty: {{basketitem.qty}}</p>
     <p class="item">Price: {{basketitem.totalPrice}} $</p>
-    <button class="item" (click)="onAddHandler(basketitem)">Add</button>
-    <button class="item" (click)="onRemoveHandler(basketitem)">Remove</button>
+    <button class="item" (click)="onAddHandler(basketitem.item)">Add</button>
+    <button class="item" (click)="onRemoveHandler(basketitem.item)">Remove</button>
 </div>

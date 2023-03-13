@@ -1,6 +1,6 @@
   <div class="content">
     <app-totalprice></app-totalprice>
-    <div *ngFor="let iterItems of itemsInTheBasket$ | async"> 
-        <app-itembasket [basketitem]="iterItems">
+    <div> 
+        <app-itembasket *ngFor="let iterItems of itemsInTheBasket$ | async" [basketitem]="iterItems" (itemToTheBasket)="addToBasket($event)" (itemToRemove)="removeFromBasket($event)">
         </app-itembasket>
     </div>

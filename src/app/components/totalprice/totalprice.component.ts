@@ -15,6 +15,6 @@ export class TotalpriceComponent implements OnInit {
   public totalPrice$!: Observable<number>;
 
   ngOnInit(): void {
-    this.totalPrice$ = this.dataService.GetBasketTotalPrice$();
+    this.totalPrice$ = this.dataService.getBasketTotalPrice();
   }
 }

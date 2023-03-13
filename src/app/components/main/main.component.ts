@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from '../../services/data.service'
 import { Item } from '../../models/Item';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-main',
@@ -10,16 +11,17 @@ import { Item } from '../../models/Item';
 })
 export class MainComponent implements OnInit {
   constructor(
+    public httpService: HttpService,
     public dataService: DataService
   ) {}
 
   public items$!: Observable<Item[]>;
 
   addToBasket(item: Item){
-    this.dataService.AddItem(item)
+    this.dataService.addItem(item)
   }
 
   ngOnInit(): void {
-    this.items$ = this.dataService.GetItems$();
+    this.items$ = this.httpService.getItems();
   }
 }

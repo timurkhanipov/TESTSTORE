@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service'
 import { BasketItem } from "src/app/models/BasketItem";
 import { Observable } from 'rxjs';
+import { Item } from 'src/app/models/Item';
 
 @Component({
   selector: 'app-basket',
@@ -13,9 +14,17 @@ export class BasketComponent {
     private readonly dataService: DataService
   ) {}
 
-  itemsInTheBasket$!: Observable<BasketItem[]>
+  public itemsInTheBasket$!: Observable<BasketItem[]>
+
+  addToBasket(itemToAdd: Item){
+    this.dataService.addItem(itemToAdd);
+  }
+
+  removeFromBasket(itemToRemove: Item){
+    this.dataService.removeItem(itemToRemove);
+  }
   
   ngOnInit(){
-    this.itemsInTheBasket$= this.dataService.GetBasketItems$()
+    this.itemsInTheBasket$ = this.dataService.getBasketItems();
   }
 }

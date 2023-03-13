@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Item } from 'src/app/models/Item';
 import { BasketItem } from '../../models/BasketItem';
 
 @Component({
@@ -10,12 +11,17 @@ export class ItembasketComponent {
 
 @Input() basketitem!: BasketItem;
 
-onAddHandler(itemToAdd: BasketItem){
+@Output()
+itemToTheBasket = new EventEmitter<Item>();
+@Output()
+itemToRemove = new EventEmitter<Item>();
 
+onAddHandler(itemToAdd: Item){
+  this.itemToTheBasket.emit(itemToAdd);
 }
 
-onRemoveHandler(itemToRemove: BasketItem){
-
+onRemoveHandler(itemToRemove: Item){
+  this.itemToRemove.emit(itemToRemove);
 }
 
 }
