@@ -12,4 +12,8 @@ export class HttpService {
   public getItems(): Observable<Item[]>{
     return this.http.get<Item[]>('https://fakestoreapi.com/products');
   }
+
+  public getItem(id: string): Observable<Item>{
+    return this.http.get<Item>('https://fakestoreapi.com/products/' + id);
+  }
 }

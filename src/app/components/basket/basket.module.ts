@@ -5,6 +5,8 @@ import { BasketRoutingModule } from './basket-routing.module';
 import { BasketComponent } from './basket.component';
 import { ItembasketComponent } from '../itembasket/itembasket.component';
 import { TotalpriceComponent } from '../totalprice/totalprice.component';
+import { StoreModule } from '@ngrx/store';
+import { BasketReducers } from 'src/app/store/reducers/basket/basket.reducer';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,8 @@ import { TotalpriceComponent } from '../totalprice/totalprice.component';
   ],
   imports: [
     CommonModule,
-    BasketRoutingModule
+    BasketRoutingModule,
+    StoreModule.forFeature('basket', BasketReducers )
   ]
 })
 export class BasketModule { }

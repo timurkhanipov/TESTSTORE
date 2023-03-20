@@ -1,7 +1,9 @@
 <div class="itemlist">
-    <p class="item">Name: {{basketitem.item.title}}</p>
-    <p class="item">Qty: {{basketitem.qty}}</p>
-    <p class="item">Price: {{basketitem.totalPrice}} $</p>
-    <button class="item" (click)="onAddHandler(basketitem.item)">Add</button>
-    <button class="item" (click)="onRemoveHandler(basketitem.item)">Remove</button>
+    <span class="item">{{basketitem.item.title}}</span>
+    <span class="item">Price: {{basketitem.totalPrice}} $</span>
+    <span>
+        <button class="item" (click)="onAddHandler(basketitem.item)">+</button>
+        <p class="item">Qty: {{basketitem.qty}}</p>
+        <button class="item" (click)="onRemoveHandler(basketitem.item)">-</button>
+    </span>
 </div>

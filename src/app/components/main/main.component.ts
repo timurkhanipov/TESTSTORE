@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { DataService } from '../../services/data.service'
 import { Item } from '../../models/Item';
 import { HttpService } from 'src/app/services/http.service';
+import { BasketItem } from "src/app/models/BasketItem";
 
 @Component({
   selector: 'app-main',
@@ -18,7 +19,7 @@ export class MainComponent implements OnInit {
   public items$!: Observable<Item[]>;
 
   addToBasket(item: Item){
-    this.dataService.addItem(item)
+    this.dataService.updateBasket(item, true);
   }
 
   ngOnInit(): void {

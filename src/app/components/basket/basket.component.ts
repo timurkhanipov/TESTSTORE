@@ -3,6 +3,9 @@ import { DataService } from '../../services/data.service'
 import { BasketItem } from "src/app/models/BasketItem";
 import { Observable } from 'rxjs';
 import { Item } from 'src/app/models/Item';
+import { select, Store } from '@ngrx/store';
+import * as basketSelector from '../../store/selectors/basket.selectors'
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-basket',
@@ -11,20 +14,18 @@ import { Item } from 'src/app/models/Item';
 })
 export class BasketComponent {
   constructor(
-    private readonly dataService: DataService
+    private readonly dataService: DataService,
+    private httpService: HttpService,
+    private store$: Store
   ) {}
 
-  public itemsInTheBasket$!: Observable<BasketItem[]>
+  public itemsInTheBasket$ = this.store$.pipe(select(basketSelector.selectBasketItems));
 
   addToBasket(itemToAdd: Item){
-    this.dataService.addItem(itemToAdd);
+    this.dataService.updateBasket(itemToAdd, true);
   }
 
   removeFromBasket(itemToRemove: Item){
-    this.dataService.removeItem(itemToRemove);
-  }
-  
-  ngOnInit(){
-    this.itemsInTheBasket$ = this.dataService.getBasketItems();
+    this.dataService.updateBasket(itemToRemove, false);
   }
 }

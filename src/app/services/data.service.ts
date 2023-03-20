@@ -1,85 +1,67 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, count, from, Observable, of, Subject, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Item } from "src/app/models/Item";
 import { BasketItem } from '../models/BasketItem';
+import { select, Store } from '@ngrx/store';
+import { BasketState } from '../store/state/basket.state';
+import { GetBasketState, SetBasketState } from '../store/actions/basket.actions';
+import * as basketSelector from '../store/selectors/basket.selectors'
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class DataService {
-  constructor() { }
+  constructor(
+    private store$: Store<BasketState>
+    ) {}
+  
+  private basketItemsObservable!: Observable<BasketItem[]>;
+  
+  public basketItems: BasketItem[] = [];
 
-  itemsInTheBasket: Item[] = []
-  basketItems: BasketItem[] = []
-  itemsInTheBasketCount: number = 0
-  basketTotalPrice: number = 0
-
-  public itemToAdd$ = new Subject<Item>()
-  public itemCount$ = new BehaviorSubject<number>(0)
-  public basketTotalPrice$ = new BehaviorSubject<number>(this.basketTotalPrice)
-  public itemsInTheBasket$ = new BehaviorSubject<BasketItem[]>(this.basketItems)
-
-  public addItem(item: Item){
-    this.formBasket(item, true);
-    this.countBasketTotalPrice();
-    this.itemsInTheBasketCount++;
-    this.itemCount$.next(this.itemsInTheBasketCount);
+  public updateBasket(item: Item, isAddingItem: boolean){
+    // this.basketItemsObservable = this.store$.pipe(select(basketSelector.selectBasketItems));
+    // this.basketItemsObservable.subscribe(x => this.basketItems = x);
+    isAddingItem? this.addToBasket(item): this.removeFromBasket(item);
+    this.basketItems.sort((a, b) => {return a.item.id - b.item.id});
+    this.store$.dispatch(new SetBasketState({basketItems: this.cloneBasketItems(this.basketItems)}));
   }
 
-  public removeItem(item: Item){
-    this.formBasket(item, false);
-    this.countBasketTotalPrice();
-    this.itemsInTheBasketCount--;
-    this.itemCount$.next(this.itemsInTheBasketCount);
-  }
-
-  public getItemsInTheBasketCount(){ 
-    return this.itemCount$;
-  }
-
-  public getBasketItems(){
-    return this.itemsInTheBasket$;
-  }
-
-  private formBasket(newItem: Item, isAdded: boolean){
-    if(isAdded){
-      this.itemsInTheBasket.push(newItem);
+  private addToBasket(item: Item){
+    if(this.basketItems.find(x => x.item.id === item.id) == null){
+      let itemToAdd: BasketItem= {
+        item: item,
+        totalPrice: Number(item.price),
+        qty: 1,
+      };
+      this.basketItems.push(itemToAdd);
     }
     else{
-      let index = this.itemsInTheBasket.findIndex(x => x.id === newItem.id);
-      this.itemsInTheBasket.splice(index,1);
+      this.basketItems.find(x => x.item.id === item.id)!.qty++;
     }
-    const basketItemsObservable = this.itemsInTheBasket;
-    const basketList = new Set(this.itemsInTheBasket);
-    const basketItemArray: Item[] = Array.from(basketList);
-    let basketItems: BasketItem[] = [];
-
-    basketItemArray.forEach(function(item){
-      const totalCount = basketItemsObservable.filter(x => x.id === item.id).length;
-      const bItem: BasketItem = {
-        item: item,
-        totalPrice: (Number(item.price)*totalCount).toString(),
-        qty: totalCount.toString()
-      }
-      basketItems.push(bItem);
-    });
-
-    this.basketItems = basketItems;
-    this.basketItems.sort(x => Number(x.item.id));
-    this.itemsInTheBasket$.next(this.basketItems);
   }
 
-  public getBasketTotalPrice(){
-    return this.basketTotalPrice$;
+  private removeFromBasket(item: Item){
+    if(this.basketItems.find(x => x.item.id === item.id) !== null){
+      this.basketItems.find(x => x.item.id === item.id)!.qty--;
+      if(this.basketItems.find(x => x.item.id === item.id)?.qty === 0){
+        let index = this.basketItems.findIndex(x => x.item.id === item.id);
+        this.basketItems.splice(index,1);
+      }     
+    }
   }
 
-  private countBasketTotalPrice(){
-    this.basketTotalPrice = 0;
-    let totPrice: number =0;
-    this.basketItems.forEach(function(basketitem){
-      totPrice = totPrice + Number(basketitem.totalPrice)
+  private cloneBasketItems(initialBasketItems: BasketItem[]): BasketItem[] {
+    let addedItemsClone: BasketItem[] = [];
+    initialBasketItems.forEach(function(bItem){
+        let bItemClone: BasketItem ={
+            item : bItem.item,
+            totalPrice: bItem.totalPrice,                
+            qty: bItem.qty,
+        };
+        addedItemsClone.push(bItemClone);
     });
-    this.basketTotalPrice = totPrice;
-    this.basketTotalPrice$.next(this.basketTotalPrice);
+    return addedItemsClone;
   }
 }
