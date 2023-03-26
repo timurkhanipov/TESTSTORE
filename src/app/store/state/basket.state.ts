@@ -1,9 +1,10 @@
+import { EntityState } from "@ngrx/entity";
 import { BasketItem } from "src/app/models/BasketItem";
 
-export class BasketState{
-    basketItems: BasketItem[] = [];
+export interface BasketState extends EntityState<BasketItem>{
 }
 
 export const initialBasketState: BasketState ={
-    basketItems: []
+    ids: [],
+    entities: {}
 }

@@ -15,7 +15,6 @@ import { HttpService } from 'src/app/services/http.service';
 export class BasketComponent {
   constructor(
     private readonly dataService: DataService,
-    private httpService: HttpService,
     private store$: Store
   ) {}
 
