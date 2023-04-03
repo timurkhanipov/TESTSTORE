@@ -12,7 +12,8 @@ import { reducers, metaReducers } from './store/reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { BasketReducers } from './store/reducers/basket/basket.reducer';
+import { BasketReducers } from './store/reducers/basket.reducer';
+import { HydrationEffects } from './store/effects/hydration.effects';
 
 const appRoutes: Routes = [
 ]
@@ -33,7 +34,7 @@ const appRoutes: Routes = [
     }),
     StoreModule.forFeature('basketItems', BasketReducers ),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([HydrationEffects]),
     StoreRouterConnectingModule.forRoot(),
   ],
   providers: [

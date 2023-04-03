@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { BasketState } from "../state/basket.state";
-import * as _ from "../reducers/basket/basket.reducer";
+import * as _ from "../reducers/basket.reducer";
 
 const getBasketFeatureState = createFeatureSelector<BasketState>(
     "basketItems"

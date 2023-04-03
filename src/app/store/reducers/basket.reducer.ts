@@ -1,5 +1,5 @@
-import { BasketState, initialBasketState } from "../../state/basket.state";
-import * as basketAction from "../../actions/basket.actions";
+import { BasketState, initialBasketState } from "../state/basket.state";
+import * as basketAction from "../actions/basket.actions";
 import { EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import { BasketItem } from "src/app/models/BasketItem";
 
@@ -12,7 +12,11 @@ export function BasketReducers(
         case basketAction.EBasketActions.ADD_BASKET_ITEM: {
             let currentBasketItem: BasketItem | undefined = state.entities[action.payload.item.id];
             if (currentBasketItem !== undefined) {
-                const updateBasketItem: BasketItem = { id: currentBasketItem.item.id, item: currentBasketItem.item, totalPrice: currentBasketItem.totalPrice, qty: currentBasketItem.qty + 1 }
+                const updateBasketItem: BasketItem = { 
+                    id: currentBasketItem.item.id,
+                    item: currentBasketItem.item,
+                    totalPrice: currentBasketItem.totalPrice,
+                    qty: currentBasketItem.qty + 1 }
                 return basketAdapter.updateOne({ id: currentBasketItem.item.id!, changes: updateBasketItem }, state);
             }
             else {
