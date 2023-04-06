@@ -6,7 +6,7 @@ import { BasketComponent } from './basket.component';
 import { ItembasketComponent } from '../itembasket/itembasket.component';
 import { TotalpriceComponent } from '../totalprice/totalprice.component';
 import { StoreModule } from '@ngrx/store';
-import { BasketReducers } from 'src/app/store/reducers/basket/basket.reducer';
+import { BasketReducers } from 'src/app/store/reducers/basket.reducer';
 
 @NgModule({
   declarations: [
